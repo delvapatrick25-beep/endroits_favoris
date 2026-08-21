@@ -1,30 +1,26 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
+// Test de base de l'application Endroits Favoris.
+// Vérifie que l'écran principal s'affiche correctement au démarrage.
 
-import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:endroits_favoris/main.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  testWidgets(
+    "L'écran principal affiche le titre et l'état vide",
+    (WidgetTester tester) async {
+      // Construit l'application dans un ProviderScope
+      // (obligatoire pour Riverpod) et déclenche une frame.
+      await tester.pumpWidget(
+        const ProviderScope(child: MonApplication()),
+      );
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+      // Le titre de l'AppBar est présent.
+      expect(find.text('Mes endroits préférés'), findsOneWidget);
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
-
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
-  });
+      // La liste est vide : message d'accueil affiché.
+      expect(find.text('Aucun endroit pour le moment.'), findsOneWidget);
+    },
+  );
 }
