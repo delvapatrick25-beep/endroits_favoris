@@ -36,6 +36,18 @@ class Endroit {
   final double? longitude;// Coordonnée GPS longitude (optionnelle)
   final String? adresse;  // Adresse lisible ex: "Paris, France" (optionnelle)
 
+  /// Constructeur secondaire : recrée un endroit DEPUIS LA BASE DE
+  /// DONNÉES. Ici l'id n'est PAS régénéré — on réutilise celui
+  /// enregistré, et l'image est reconstruite depuis son chemin.
+  Endroit.depuisBase({
+    required this.id,
+    required this.nom,
+    required String cheminImage,
+    this.latitude,
+    this.longitude,
+    this.adresse,
+  }) : image = File(cheminImage);
+
   /// Retourne true si une localisation GPS est disponible.
   /// Utilisé dans la page de détails pour décider d'afficher ou non la carte.
   bool get aLocalisation => latitude != null && longitude != null;
