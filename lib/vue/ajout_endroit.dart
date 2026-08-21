@@ -106,39 +106,72 @@ class _AjoutEndroitState extends ConsumerState<AjoutEndroit> {
             // ── Champ de saisie du nom ──
             TextField(
               controller: _nomController,
+              autofocus: true,
               decoration: const InputDecoration(
                 labelText: "Nom de l'endroit",
-                border: OutlineInputBorder(),
+                prefixIcon: Icon(Icons.title),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(12)),
+                ),
+                hintText: 'Ex: Ma plage préférée',
               ),
               textCapitalization: TextCapitalization.sentences,
-            ),
-            const SizedBox(height: 16),
-
-            // ── Section photo ──
-            const Text(
-              'Photo',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
-            ImagePrise(onPhotoSelectionnee: _surPhotoSelectionnee),
-            const SizedBox(height: 16),
-
-            // ── Section localisation GPS ──
-            const Text(
-              'Localisation',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
-            LocalisationPrise(
-              onLocalisationSelectionnee: _surLocalisationSelectionnee,
+              textInputAction: TextInputAction.next,
             ),
             const SizedBox(height: 24),
 
+            // ── Section photo ──
+            Row(
+              children: [
+                const Icon(Icons.image, size: 20),
+                const SizedBox(width: 8),
+                Text(
+                  'Photo de l\'endroit',
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            ImagePrise(onPhotoSelectionnee: _surPhotoSelectionnee),
+            const SizedBox(height: 24),
+
+            // ── Section localisation GPS ──
+            Row(
+              children: [
+                const Icon(Icons.location_on, size: 20),
+                const SizedBox(width: 8),
+                Text(
+                  'Localisation',
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            LocalisationPrise(
+              onLocalisationSelectionnee: _surLocalisationSelectionnee,
+            ),
+            const SizedBox(height: 32),
+
             // ── Bouton d'enregistrement ──
-            ElevatedButton.icon(
-              onPressed: _enregistrerEndroit,
-              icon: const Icon(Icons.save),
-              label: const Text("Enregistrer l'endroit"),
+            SizedBox(
+              height: 50,
+              child: ElevatedButton.icon(
+                onPressed: _enregistrerEndroit,
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                icon: const Icon(Icons.save),
+                label: const Text(
+                  "Enregistrer l'endroit",
+                  style: TextStyle(fontSize: 16),
+                ),
+              ),
             ),
           ],
         ),

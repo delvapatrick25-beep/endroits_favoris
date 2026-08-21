@@ -25,32 +25,78 @@ class EndroitDetail extends StatelessWidget {
       appBar: AppBar(title: Text(endroit.nom)),
       body: Column(
         children: [
-          // ── Photo en pleine largeur (hauteur fixe 250 pixels) ──
-          Image.file(
-            endroit.image,
-            width: double.infinity,
-            height: 250,
-            fit: BoxFit.cover,
+          // ── Photo avec coins arrondis et ombre légère ──
+          Stack(
+            children: [
+              Container(
+                height: 300,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.2),
+                      blurRadius: 10,
+                      offset: const Offset(0, 5),
+                    ),
+                  ],
+                ),
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                    bottomLeft: Radius.circular(30),
+                    bottomRight: Radius.circular(30),
+                  ),
+                  child: Image.file(
+                    endroit.image,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+            ],
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 20),
 
-          // ── Nom de l'endroit sous la photo ──
-          Text(
-            endroit.nom,
-            style: Theme.of(context).textTheme.headlineSmall,
+          // ── Nom de l'endroit ──
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Text(
+              endroit.nom,
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+            ),
           ),
 
-          // ── Adresse affichée UNIQUEMENT si elle n'est pas nulle ──
-          // La collection "..." permet d'insérer plusieurs widgets
-          // de manière conditionnelle dans une Column.
+          // ── Adresse dans une carte élégante ──
           if (endroit.adresse != null) ...[
-            const SizedBox(height: 8),
+            const SizedBox(height: 12),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Text(
-                endroit.adresse!, // "!" garantit la non-nullité ici
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.bodyMedium,
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Card(
+                elevation: 0,
+                color: Theme.of(context).colorScheme.secondaryContainer.withValues(alpha: 0.4),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(Icons.location_on, size: 20),
+                      const SizedBox(width: 8),
+                      Flexible(
+                        child: Text(
+                          endroit.adresse!,
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
           ],
